@@ -1,0 +1,57 @@
+
+
+.playground {
+  height: 80vh;
+  width: 70vw;
+  margin: 10vh auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  h1 {
+    font-size: 3em;
+  }
+}
+
+  .gameboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    height: 670px;
+    width: 1000px;
+    padding: 20px;
+
+    .memory-card {
+      border-radius: 10px;
+      border: 2px solid#2f3542;
+      width: 150px;
+      height: 200px;
+      margin: 5px;
+      position: relative;
+      transform: scale(1);
+      cursor: pointer;
+
+      &:active {
+        transform: scale(0.97);
+        transition: transform 0.3s
+      }
+
+      &:hover {
+        box-shadow: 1px 0px 7px #57606f;
+        transition: box-shadow 0.15s;
+      }
+      
+
+     .front-face, .back-face {
+      position: absolute;
+      top:0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+     }
+      
+    }
+  }
