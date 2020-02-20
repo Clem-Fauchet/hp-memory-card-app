@@ -1,31 +1,34 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
-import cardImages from './cardImages'
+import generateDeck from './deck'
 import Card from './Card'
 
-function Game() {
-  const [state, setState] = useState({
+function Game({ deckWidth = 6, deckHeight = 3 }) {
+  const totalCards = deckWidth * deckHeight
+
+  const [cards, setCards] = useState(generateDeck(18))
+  const [flipped, setFlipped] = useState({
     isFlipped: false,
   })
 
   const flipCard = () => {
-    setState({
-      ...state,
-      isFlipped: !state.isFlipped,
+    setFlipped({
+      ...flipped,
+      isFlipped: !flipped.isFlipped,
     })
   }
 
-  const cards = cardImages.map((card, index) => (
+  const cardList = cards.map((card) => (
     <Card
-      id={1}
-      cardUrl={'static/images/' + card}
-      key={index}
+      key={card.id}
+      id={card.id}
+      cardUrl={card.imageUrl}
       handleClick={() => flipCard()}
-      isFlipped={state.isFlipped}
+      isFlipped={flipped.isFlipped}
     />
   ))
 
-  return <div className='gameboard'>{cards}</div>
+  return <div className='gameboard'>{cardList} </div>
 }
 
 export default Game
