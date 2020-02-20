@@ -1,13 +1,14 @@
-import React, { Fragment, useState } from 'react'
+import React from 'react'
 
 import cardImages from './cardImages'
+import Card from './Card'
 
-function Game({ gameHeight = 3, gameWidth = 4 }) {
-  // const totalCards = gameWidth * gameHeight
+function Game() {
+  const cards = cardImages.map((card) => (
+    <Card cardUrl={'/static/images/' + card} />
+  ))
 
-  // const [cards, setCards] = useState(generateCards(totalCards))
-
-  return <Fragment></Fragment>
+  return <div className='gameboard'>{cards}</div>
 }
 
 export default Game
