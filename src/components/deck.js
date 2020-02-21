@@ -11,7 +11,7 @@ export default function generateDeck(count) {
   const cards = shuffleArray(cardImages)
     .slice(0, count / 2)
     .map((imageUrl) => ({
-      id: randomId(500, 0),
+      id: randomId(5000, 0),
       imageUrl: '/static/images/' + imageUrl,
       isFlipped: true,
       canFlip: false,
@@ -20,7 +20,7 @@ export default function generateDeck(count) {
       oldCards,
       {
         ...cloneDeep(oldCards),
-        id: randomId(1000, 501),
+        id: randomId(10000, 5010),
       },
     ])
 

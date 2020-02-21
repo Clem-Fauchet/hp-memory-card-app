@@ -47,8 +47,12 @@ function Game({ deckWidth = 6, deckHeight = 3 }) {
   }, [])
 
   const resetFirstAndSecondCards = () => {
-    setFirstCard(null)
-    setSecondCard(null)
+    setTimeout(() => {
+      setFirstCard(null)
+      setSecondCard(null)
+
+      setIsBoardLock(false)
+    }, 1000)
   }
 
   const successTry = () => {
@@ -62,16 +66,11 @@ function Game({ deckWidth = 6, deckHeight = 3 }) {
   }
 
   const failTry = () => {
-    const firstCardId = firstCard.id
-    const secondCardId = secondCard.id
-
-    cardCanFlip(firstCard.id, true)
-    cardCanFlip(secondCard.id, true)
     setTimeout(() => {
-      cardIsFlipped(firstCardId, false)
+      cardIsFlipped(firstCard.id, false)
     }, 1000)
     setTimeout(() => {
-      cardIsFlipped(secondCardId, false)
+      cardIsFlipped(secondCard.id, false)
     }, 1200)
 
     resetFirstAndSecondCards()
@@ -85,21 +84,28 @@ function Game({ deckWidth = 6, deckHeight = 3 }) {
   }, [firstCard, secondCard])
 
   const onCardClick = (card) => {
-    if (card.canFlip === false) {
-      cardIsFlipped(card.id, true)
-      return
+    ///all clicking events
+    if (!isBoardLock) {
+      if (
+        (firstCard && card.id === firstCard.id) ||
+        (secondCard && card.id === secondCard.id)
+      )
+        return
+
+      if (firstCard) {
+        setSecondCard(card)
+        setIsBoardLock(true)
+      } else {
+        setFirstCard(card)
+      }
+
+      cardIsFlipped(card.id, true) //flipping card
+
+      if (card.canFlip === false) {
+        /// blocking matching cards
+        cardIsFlipped(card.id, true)
+      }
     }
-
-    cardIsFlipped(card.id, true)
-
-    if (
-      (firstCard && card.id === firstCard.id) ||
-      (secondCard && card.id === secondCard.id)
-    ) {
-      return
-    }
-
-    firstCard ? setSecondCard(card) : setFirstCard(card)
   }
 
   const cardList = cards.map((card, index) => (
