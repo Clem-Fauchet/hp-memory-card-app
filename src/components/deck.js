@@ -14,7 +14,7 @@ export default function generateDeck(count) {
       id: randomId(500, 0),
       imageUrl: '/static/images/' + imageUrl,
       isFlipped: true,
-      canFlip: true,
+      canFlip: false,
     }))
     .flatMap((oldCards) => [
       oldCards,
