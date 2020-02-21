@@ -7,10 +7,11 @@ function Game({ deckWidth = 6, deckHeight = 3 }) {
   const totalCards = deckWidth * deckHeight
 
   const [cards, setCards] = useState(generateDeck(totalCards))
-  const [canFlip, setCanFlip] = useState(false)
 
   const [firstCard, setFirstCard] = useState(null)
   const [secondCard, setSecondCard] = useState(null)
+
+  const [isBoardLock, setIsBoardLock] = useState(false) //locking board for other clicks
 
   const cardIsFlipped = (cardId, isFlipped) => {
     //adding flipped class or not
@@ -42,7 +43,6 @@ function Game({ deckWidth = 6, deckHeight = 3 }) {
         cardIsFlipped(card.id, false)
         cardCanFlip(card.id, true)
       }
-      setCanFlip(true)
     }, 3000)
   }, [])
 
@@ -65,10 +65,11 @@ function Game({ deckWidth = 6, deckHeight = 3 }) {
     const firstCardId = firstCard.id
     const secondCardId = secondCard.id
 
+    cardCanFlip(firstCard.id, true)
+    cardCanFlip(secondCard.id, true)
     setTimeout(() => {
       cardIsFlipped(firstCardId, false)
     }, 1000)
-
     setTimeout(() => {
       cardIsFlipped(secondCardId, false)
     }, 1200)
@@ -80,16 +81,22 @@ function Game({ deckWidth = 6, deckHeight = 3 }) {
     if (!firstCard || !secondCard) {
       return
     }
-    firstCard.imageUrl === secondCard.imageUrl ? successTry() : failTry()
+    firstCard.imageUrl === secondCard.imageUrl ? successTry() : failTry() //execute function success or fail
   }, [firstCard, secondCard])
 
   const onCardClick = (card) => {
+    if (card.canFlip === false) {
+      cardIsFlipped(card.id, true)
+      return
+    }
+
     cardIsFlipped(card.id, true)
 
     if (
       (firstCard && card.id === firstCard.id) ||
       (secondCard && card.id === secondCard.id)
     ) {
+      return
     }
 
     firstCard ? setSecondCard(card) : setFirstCard(card)
