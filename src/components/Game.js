@@ -85,6 +85,8 @@ function Game({ deckWidth = 6, deckHeight = 3 }) {
 
   const onCardClick = (card) => {
     ///all clicking events
+    if (!card.canFlip) return
+
     if (!isBoardLock) {
       if (
         (firstCard && card.id === firstCard.id) ||
@@ -93,18 +95,14 @@ function Game({ deckWidth = 6, deckHeight = 3 }) {
         return
 
       if (firstCard) {
+        //updating each cards and locking board
         setSecondCard(card)
         setIsBoardLock(true)
       } else {
         setFirstCard(card)
       }
 
-      cardIsFlipped(card.id, true) //flipping card
-
-      if (card.canFlip === false) {
-        /// blocking matching cards
-        cardIsFlipped(card.id, true)
-      }
+      cardIsFlipped(card.id, true)
     }
   }
 
