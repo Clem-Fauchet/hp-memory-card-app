@@ -7,7 +7,7 @@ const shuffleArray = (array) => {
 
 let randomId = (max, min) => Math.floor(Math.random() * (max - min) + min)
 
-export default function generateDeck(count) {
+export function generateDeck(count) {
   const cards = shuffleArray(cardImages)
     .slice(0, count / 2)
     .map((imageUrl) => ({
@@ -15,6 +15,26 @@ export default function generateDeck(count) {
       imageUrl: '/static/images/' + imageUrl,
       isFlipped: true,
       canFlip: false,
+    }))
+    .flatMap((oldCards) => [
+      oldCards,
+      {
+        ...cloneDeep(oldCards),
+        id: randomId(10000, 5010),
+      },
+    ])
+
+  return shuffleArray(cards)
+}
+
+export function regenerateDeck(count) {
+  const cards = shuffleArray(cardImages)
+    .slice(0, count / 2)
+    .map((imageUrl) => ({
+      id: randomId(5000, 0),
+      imageUrl: '/static/images/' + imageUrl,
+      isFlipped: false,
+      canFlip: true,
     }))
     .flatMap((oldCards) => [
       oldCards,

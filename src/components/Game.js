@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 
-import generateDeck from './deck'
+import { generateDeck, regenerateDeck } from './deck'
 import Card from './Card'
+import ButtonRestart from './ButtonRestart'
 
 function Game({ deckWidth = 6, deckHeight = 3 }) {
   const totalCards = deckWidth * deckHeight
@@ -106,6 +107,10 @@ function Game({ deckWidth = 6, deckHeight = 3 }) {
     }
   }
 
+  const restartGame = (cards) => {
+    setCards(regenerateDeck(totalCards))
+  }
+
   const cardList = cards.map((card, index) => (
     <Card
       key={index}
@@ -116,7 +121,12 @@ function Game({ deckWidth = 6, deckHeight = 3 }) {
     />
   ))
 
-  return <div className='gameboard'>{cardList} </div>
+  return (
+    <>
+      <ButtonRestart handleClick={() => restartGame(cards)} />
+      <div className='gameboard'>{cardList} </div>
+    </>
+  )
 }
 
 export default Game
